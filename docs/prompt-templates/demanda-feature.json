@@ -1,0 +1,75 @@
+{
+  "demanda": {
+    "titulo": "",
+    "descricao": "",
+    "objetivo": "",
+    "prioridade": "alta | media | baixa",
+    "tipo": "feature | bugfix | documentacao | infraestrutura | pesquisa | outro"
+  },
+  "escopo": {
+    "repositorios_afetados": [
+      "agentops",
+      "backend",
+      "frontend"
+    ],
+    "backend": {
+      "inclui": false,
+      "descricao": "",
+      "endpoints": [],
+      "regras_de_negocio": [],
+      "integracoes": []
+    },
+    "frontend": {
+      "inclui": false,
+      "descricao": "",
+      "telas_paginas": [],
+      "componentes": [],
+      "comportamentos": []
+    },
+    "documentacao": {
+      "inclui": true,
+      "arquivos_desejados": [],
+      "conteudo_esperado": []
+    }
+  },
+  "dados": {
+    "entidades": [],
+    "campos_importantes": [],
+    "relacionamentos": [],
+    "validacoes": []
+  },
+  "usuarios": {
+    "perfis_afetados": [],
+    "permissoes": [],
+    "fluxo_principal": []
+  },
+  "requisitos": {
+    "funcionais": [],
+    "nao_funcionais": [],
+    "seguranca": [],
+    "performance": [],
+    "responsividade": []
+  },
+  "criterios_de_aceite": [],
+  "restricoes": {
+    "tecnologias_obrigatorias": [],
+    "tecnologias_proibidas": [],
+    "padroes_de_codigo": [],
+    "observacoes": ""
+  },
+  "referencias": {
+    "links": [],
+    "prints_ou_descricoes_visuais": [],
+    "sistemas_parecidos": []
+  },
+  "verificacao_esperada": {
+    "backend": [],
+    "frontend": [],
+    "documentacao": [
+      "links conferidos",
+      "sem placeholders",
+      "sem contradicoes"
+    ]
+  },
+  "duvidas_ou_pontos_em_aberto": []
+}
