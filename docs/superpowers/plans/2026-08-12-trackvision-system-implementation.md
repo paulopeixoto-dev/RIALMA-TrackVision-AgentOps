@@ -487,6 +487,8 @@ RIALMA-TrackVision-Frontend/
 
 **Design Source:** `docs/superpowers/specs/2026-08-12-edge-parent-synchronization-design.md`
 
+**Implementation Plan:** `docs/superpowers/plans/2026-08-12-edge-parent-synchronization-implementation.md`
+
 **Files:**
 
 - Create parent controllers:
