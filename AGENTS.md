@@ -55,6 +55,11 @@ Ao trabalhar no backend:
   mensagens proprias.
 - Use Eloquent de forma eficiente, evitando N+1 e consultas espalhadas sem criterio.
 - Isole logica de negocio em Services ou Actions testaveis.
+- Em APIs, use versionamento, Resources para serializacao e middleware/policies para
+  autorizacao recorrente.
+- Em integracoes externas, configure timeouts e evite chamadas HTTP soltas no
+  Controller.
+- Leia configuracoes com `config()`, nao com `env()` fora de arquivos de config.
 - Documente endpoints, contratos, regras de negocio e variaveis de ambiente.
 - Inclua testes para regras de negocio, validacoes e integracoes criticas.
 
