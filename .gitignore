@@ -4,3 +4,6 @@
 
 # IDE local
 /.idea/
+
+# Scaffolds temporarios gerados durante execucao agentica
+/temp-trackvision-backend/
