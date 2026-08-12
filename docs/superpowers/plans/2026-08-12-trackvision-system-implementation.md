@@ -381,6 +381,8 @@ RIALMA-TrackVision-Frontend/
 
 **Design Source:** `docs/superpowers/specs/2026-08-12-intelbras-webhook-camera-adapter-design.md`
 
+**Implementation Plan:** `docs/superpowers/plans/2026-08-12-intelbras-camera-adapter-implementation.md`
+
 **Files:**
 
 - Create: `app/Services/Cameras/Intelbras/IntelbrasHttpClient.php`
