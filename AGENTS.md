@@ -66,6 +66,14 @@ Ao trabalhar no backend:
 Ao trabalhar no frontend:
 
 - Use o repositorio `RIALMA-TrackVision-Frontend`.
+- Siga o padrao Vue documentado em `docs/frontend-vue-guidelines.md`.
+- Use Vue 3, Composition API e Single-File Components como base.
+- Mantenha componentes pequenos, com responsabilidade clara, props tipadas e emits
+  explicitos.
+- Isole chamadas de API em services/clients, nao em componentes espalhados.
+- Use composables para logica reutilizavel e Pinia para estado compartilhado quando
+  estado local nao bastar.
+- Siga as regras essenciais, fortemente recomendadas e recomendadas do Vue Style Guide.
 - Priorize fluxos completos, estados de carregamento, erro e vazio.
 - Verifique responsividade e integracao com contratos da API.
 
@@ -76,6 +84,7 @@ Documentacao agentica vive neste repositorio. Use preferencialmente:
 - `docs/project-context.md` para mapa do projeto e responsabilidades.
 - `docs/agentic-development.md` para fluxo de desenvolvimento agentico.
 - `docs/backend-laravel-guidelines.md` para padroes obrigatorios do backend Laravel.
+- `docs/frontend-vue-guidelines.md` para padroes obrigatorios do frontend Vue.
 - `docs/skills-and-mcp.md` para criterios de uso de skills, plugins e MCPs.
 - `docs/prompt-templates/` para prompts reutilizaveis.
 - `docs/checklists/` para checklists operacionais.

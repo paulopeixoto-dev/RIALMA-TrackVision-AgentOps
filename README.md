@@ -25,8 +25,9 @@ no `.gitignore` deste repositorio.
 2. Use `docs/prompt-templates/demanda-feature.json` para registrar demandas.
 3. Consulte `docs/agentic-development.md` para seguir o fluxo de trabalho.
 4. Consulte `docs/backend-laravel-guidelines.md` antes de alterar o backend Laravel.
-5. Consulte `docs/skills-and-mcp.md` antes de propor uma skill, plugin ou MCP.
-6. Faca commits separados no repositorio correto: AgentOps, backend ou frontend.
+5. Consulte `docs/frontend-vue-guidelines.md` antes de alterar o frontend Vue.
+6. Consulte `docs/skills-and-mcp.md` antes de propor uma skill, plugin ou MCP.
+7. Faca commits separados no repositorio correto: AgentOps, backend ou frontend.
 
 ## Principios
 
