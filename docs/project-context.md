@@ -1,6 +1,6 @@
 # Contexto do Projeto
 
-Atualizado em: 2026-08-10
+Atualizado em: 2026-08-12
 
 ## Visao geral
 
@@ -35,6 +35,7 @@ C:\projetos\rialma\RIALMA-TrackVision-AgentOps
 
 - Manter regras duraveis para agentes em `AGENTS.md`.
 - Registrar prompts reutilizaveis e formatos de especificacao.
+- Registrar padroes de backend Laravel que agentes e devs devem seguir.
 - Documentar quando criar ou usar skills.
 - Documentar quando conectar MCPs e quais limites de seguranca aplicar.
 - Registrar decisoes de contexto que afetam backend e frontend.
@@ -50,3 +51,9 @@ C:\projetos\rialma\RIALMA-TrackVision-AgentOps
 - Documentacao operacional que seja exclusiva de um unico repositorio e nao tenha
   impacto agentico.
 
+## Padrao inicial do backend
+
+O backend deve seguir Laravel com Controllers magros, validacao por Form Requests,
+Eloquent usado de forma eficiente e logica de negocio isolada em Services ou Actions.
+Esse padrao esta detalhado em `docs/backend-laravel-guidelines.md` e deve orientar
+qualquer demanda futura de API, regra de negocio, banco ou integracao.

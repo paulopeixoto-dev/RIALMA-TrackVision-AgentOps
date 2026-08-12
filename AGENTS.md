@@ -48,6 +48,13 @@ para conveniencia, mas sao ignorados pelo Git do AgentOps.
 Ao trabalhar no backend:
 
 - Use o repositorio `RIALMA-TrackVision-Backend`.
+- Siga o padrao Laravel documentado em `docs/backend-laravel-guidelines.md`.
+- Mantenha Controllers magros: eles devem coordenar request, authorization,
+  chamada de Service/Action e response, sem concentrar regra de negocio.
+- Valide dados com Form Requests sempre que a entrada tiver regras, autorizacao ou
+  mensagens proprias.
+- Use Eloquent de forma eficiente, evitando N+1 e consultas espalhadas sem criterio.
+- Isole logica de negocio em Services ou Actions testaveis.
 - Documente endpoints, contratos, regras de negocio e variaveis de ambiente.
 - Inclua testes para regras de negocio, validacoes e integracoes criticas.
 
@@ -63,6 +70,7 @@ Documentacao agentica vive neste repositorio. Use preferencialmente:
 
 - `docs/project-context.md` para mapa do projeto e responsabilidades.
 - `docs/agentic-development.md` para fluxo de desenvolvimento agentico.
+- `docs/backend-laravel-guidelines.md` para padroes obrigatorios do backend Laravel.
 - `docs/skills-and-mcp.md` para criterios de uso de skills, plugins e MCPs.
 - `docs/prompt-templates/` para prompts reutilizaveis.
 - `docs/checklists/` para checklists operacionais.
@@ -109,4 +117,3 @@ Antes de configurar MCP:
 - Validar se dados sensiveis nao foram adicionados.
 - Validar se as instrucoes agenticas continuam pequenas, claras e acionaveis.
 - Para mudancas em backend ou frontend, exigir verificacao tecnica alem de leitura.
-

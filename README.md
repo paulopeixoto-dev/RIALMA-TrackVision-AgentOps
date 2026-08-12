@@ -24,8 +24,9 @@ no `.gitignore` deste repositorio.
 1. Leia `AGENTS.md` antes de iniciar qualquer tarefa agentica.
 2. Use `docs/prompt-templates/demanda-feature.json` para registrar demandas.
 3. Consulte `docs/agentic-development.md` para seguir o fluxo de trabalho.
-4. Consulte `docs/skills-and-mcp.md` antes de propor uma skill, plugin ou MCP.
-5. Faca commits separados no repositorio correto: AgentOps, backend ou frontend.
+4. Consulte `docs/backend-laravel-guidelines.md` antes de alterar o backend Laravel.
+5. Consulte `docs/skills-and-mcp.md` antes de propor uma skill, plugin ou MCP.
+6. Faca commits separados no repositorio correto: AgentOps, backend ou frontend.
 
 ## Principios
 
@@ -35,4 +36,3 @@ no `.gitignore` deste repositorio.
 - Backend e frontend nunca devem ser versionados dentro do AgentOps.
 - Segredos, tokens, chaves e credenciais nunca entram no Git.
 - Cada tarefa termina com verificacao objetiva e status limpo.
-
