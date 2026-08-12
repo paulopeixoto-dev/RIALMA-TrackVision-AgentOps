@@ -485,6 +485,8 @@ RIALMA-TrackVision-Frontend/
 
 ## Task 8: Edge-to-Parent Synchronization
 
+**Design Source:** `docs/superpowers/specs/2026-08-12-edge-parent-synchronization-design.md`
+
 **Files:**
 
 - Create parent controllers:
