@@ -38,7 +38,7 @@ Recommended phase order:
 2. Parent admin domain.
 3. Frontend admin shell.
 4. Camera and location modeling.
-5. Intelbras integration adapter.
+5. Intelbras integration adapter, using webhook-first delivery for VIP 5460 LPR IA and event-stream fallback when required by firmware or field setup.
 6. Edge local capture engine.
 7. Edge-to-parent synchronization.
 8. Trip classification and load review.
@@ -379,32 +379,47 @@ RIALMA-TrackVision-Frontend/
 
 ## Task 6: Intelbras Camera Adapter
 
+**Design Source:** `docs/superpowers/specs/2026-08-12-intelbras-webhook-camera-adapter-design.md`
+
 **Files:**
 
 - Create: `app/Services/Cameras/Intelbras/IntelbrasHttpClient.php`
 - Create: `app/Services/Cameras/Intelbras/IntelbrasSnapshotClient.php`
 - Create: `app/Services/Cameras/Intelbras/IntelbrasEventStreamClient.php`
+- Create: `app/Services/Cameras/Intelbras/IntelbrasWebhookParser.php`
 - Create: `app/Services/Cameras/Intelbras/TrafficEventParser.php`
 - Create: `app/Data/Cameras/TrafficCaptureData.php`
 - Create: `app/Data/Cameras/SnapshotData.php`
+- Create: `app/Http/Controllers/Api/V1/Edge/IntelbrasLprWebhookController.php`
+- Create: `app/Http/Requests/Api/V1/Edge/IntelbrasLprWebhookRequest.php`
+- Create: `app/Actions/Edge/HandleIntelbrasLprWebhookAction.php`
 - Create: `tests/Unit/Cameras/Intelbras/TrafficEventParserTest.php`
+- Create: `tests/Unit/Cameras/Intelbras/IntelbrasWebhookParserTest.php`
 - Create: `tests/Unit/Cameras/Intelbras/IntelbrasSnapshotClientTest.php`
+- Create: `tests/Feature/Edge/IntelbrasLprWebhookTest.php`
 
 **Interfaces:**
 
 - Produces: `IntelbrasSnapshotClient::capture(Camera $camera): SnapshotData`
+- Produces: `POST /api/v1/edge/intelbras/camera-pairs/{cameraPair:uuid}/lpr-events`
 - Produces: `TrafficEventParser::parse(string $payload): TrafficCaptureData`
-- Produces event data: `plate_number`, `plate_normalized`, `event_time`, `lane`, `raw_payload`, `lpr_image_bytes`.
+- Produces event data: `event_code`, `action`, `plate_number`, `plate_normalized`, `event_time`, `lane`, `group_id`, `index_in_group`, `raw_payload`, `lpr_image_bytes`.
 
 **Steps:**
 
 - [ ] Implement an HTTP client with timeout and Digest Auth support.
+- [ ] Implement Basic Auth verification for Intelbras webhook uploads using edge-only environment values.
+- [ ] Implement local webhook endpoint for VIP 5460 LPR IA `TrafficJunction` events.
+- [ ] Parse `PictureHttpUpload` multipart payloads when the camera sends event plus JPEG.
+- [ ] Parse `EventHttpUpload` JSON payloads when the camera sends event without image.
 - [ ] Implement support-camera snapshot capture through Intelbras HTTP API snapshot endpoint.
-- [ ] Implement LPR event subscription using Intelbras event stream endpoint.
+- [ ] Capture an LPR snapshot when the webhook payload does not include an LPR image.
+- [ ] Keep LPR event subscription with `snapManager.cgi?action=attachFileProc` as operational fallback.
 - [ ] Parse traffic/LPR event payload into `TrafficCaptureData`.
 - [ ] Treat LPR image and support snapshot as separate media assets.
 - [ ] Load camera timeout and retry policy from `config/trackvision.php`.
 - [ ] Write parser tests using saved sample payload fixtures.
+- [ ] Write webhook tests for registered vehicle, unknown plate, missing LPR image fallback, invalid credentials, and duplicate event dedupe.
 - [ ] Write snapshot tests with fake HTTP responses returning JPEG bytes.
 - [ ] Run `php artisan test --filter=Intelbras`.
 - [ ] Commit as `feat: add intelbras camera adapter`.
@@ -415,6 +430,8 @@ RIALMA-TrackVision-Frontend/
 - Adapter can parse plate number and traffic metadata.
 - Snapshot result includes content type, bytes, hash, and captured timestamp.
 - HTTP timeout is mandatory.
+- Webhook-first path supports VIP 5460 LPR IA `PictureHttpUpload` and `EventHttpUpload`.
+- Event-stream subscription remains available as fallback when webhook setup is unavailable.
 
 ---
 
@@ -637,8 +654,8 @@ RIALMA-TrackVision-Frontend/
 
 ## Risks and Decisions
 
-- Intelbras camera API details must be validated against the exact camera models before implementation.
-- If camera LPR push events are not available in the chosen model, use polling or event-stream subscription as adapter strategy.
+- Intelbras camera API details must be validated against the exact camera firmware before implementation.
+- VIP 5460 LPR IA integration is designed as webhook-first. If `PictureHttpUpload` is unavailable, use `EventHttpUpload` with LPR snapshot fallback. If active upload cannot be configured in field, use event-stream subscription with `snapManager.cgi?action=attachFileProc`.
 - Automatic loaded/empty classification is out of v1 unless a computer-vision model is explicitly selected and validated.
 - Edge local storage must be sized for image volume and offline duration.
 - Parent sync must be idempotent from the first implementation.
