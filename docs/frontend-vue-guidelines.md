@@ -67,8 +67,13 @@ Padroes esperados:
 - nomes completos em vez de abreviacoes obscuras;
 - props declaradas explicitamente, com tipos e obrigatoriedade quando aplicavel;
 - emits declarados explicitamente;
+- eventos customizados emitidos e escutados em kebab-case, como `close-window`;
+- props declaradas em camelCase no script e usadas em kebab-case no template, mantendo
+  consistencia no projeto;
 - templates com `v-for` sempre usando `:key` unica e estavel;
 - nunca usar `v-if` e `v-for` no mesmo elemento;
+- expressoes no template devem ser simples; logica de formatacao, filtro ou calculo
+  deve ir para computed, composable ou metodo nomeado;
 - estilos escopados ou organizados pelo padrao global do projeto;
 - componentes de tela devem orquestrar, componentes reutilizaveis devem focar UI.
 
@@ -79,6 +84,25 @@ Um componente nao deve:
 - acessar estado global sem necessidade;
 - misturar fetch, transformacao, validacao visual e layout em um unico arquivo grande;
 - receber dados indefinidos sem tratar loading, erro ou vazio.
+
+## Convencoes de nomes de componentes
+
+Use nomes para revelar o papel do componente na aplicacao.
+
+Padroes esperados:
+
+- componentes reutilizaveis e genericos de UI devem usar prefixo `Base`, como
+  `BaseButton.vue`, `BaseModal.vue` ou `BaseInput.vue`;
+- componentes usados uma unica vez por pagina ou layout devem usar prefixo `The`,
+  como `TheHeader.vue`, `TheSidebar.vue` ou `TheFooter.vue`;
+- componentes acoplados a um dominio devem carregar o dominio no nome, como
+  `VehicleMapPanel.vue` ou `CameraStatusBadge.vue`;
+- evite nomes vagos como `Card.vue`, `List.vue`, `Modal.vue` ou `Item.vue`;
+- escolha PascalCase para arquivos e imports e mantenha essa convencao em todo o repo.
+
+Nao registre componentes globais automaticamente sem necessidade. Se houver registro
+global para componentes base, documente o padrao e mantenha apenas componentes
+realmente genericos nessa categoria.
 
 ## Composition API e composables
 
@@ -96,6 +120,17 @@ Padroes esperados:
 
 Nao use composable como deposito generico de qualquer codigo. Se a logica fala com API,
 prefira service/client. Se representa estado compartilhado, prefira Pinia.
+
+## Options API
+
+O padrao preferido e Composition API com `<script setup>`, mas se Options API aparecer
+em codigo legado ou em uma decisao especifica, siga estes cuidados:
+
+- `data` deve sempre ser uma funcao que retorna um novo objeto;
+- nao chame a mesma rotina em `created` e em `watch` para simular inicializacao;
+- quando um watcher precisar rodar na criacao, use `immediate: true`;
+- mantenha computed para valores derivados e methods para acoes;
+- preserve a ordem recomendada das options descrita neste guia.
 
 ## Estado com Pinia
 
@@ -206,6 +241,15 @@ fica no backend.
 
 O projeto deve seguir as regras recomendadas oficiais do Vue para consistencia.
 
+Use shorthands de diretivas de forma consistente:
+
+- `:` para `v-bind`;
+- `@` para `v-on`;
+- `#` para `v-slot`.
+
+O padrao preferido do projeto e usar shorthands em templates Vue. Se o time escolher
+nao usar shorthands, registre a decisao e aplique em todo o repositorio.
+
 Em componentes Options API, quando usados, mantenha a ordem recomendada:
 
 1. `name`
@@ -268,9 +312,14 @@ ou de fluxo ponta a ponta.
 Antes de finalizar uma demanda de frontend Vue, confirme:
 
 - [ ] Componentes tem responsabilidade clara.
+- [ ] Base components usam prefixo `Base` e componentes single-instance usam `The`.
 - [ ] Props e emits estao explicitamente definidos.
+- [ ] Eventos customizados usam kebab-case.
+- [ ] Props usam camelCase no script e kebab-case no template.
 - [ ] `v-for` usa `:key` unica e estavel.
 - [ ] Nao ha `v-if` e `v-for` no mesmo elemento.
+- [ ] Templates nao contem expressoes complexas que deveriam ser computed/composable.
+- [ ] Shorthands de diretivas sao usados de forma consistente.
 - [ ] Logica reutilizavel saiu de componentes para composables, services ou stores.
 - [ ] Chamadas de API ficam em services/clients.
 - [ ] Telas tratam loading, erro, vazio e sucesso.
@@ -300,3 +349,5 @@ Antes de finalizar uma demanda de frontend Vue, confirme:
 
 - ButterCMS, "19 Laravel best practices for developers in 2026":
   https://buttercms.com/blog/laravel-best-practices/
+- LearnVue, "12 VueJS Best Practices for Pro Developers":
+  https://learnvue.co/articles/vue-best-practices

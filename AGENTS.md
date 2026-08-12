@@ -74,6 +74,8 @@ Ao trabalhar no frontend:
 - Use composables para logica reutilizavel e Pinia para estado compartilhado quando
   estado local nao bastar.
 - Siga as regras essenciais, fortemente recomendadas e recomendadas do Vue Style Guide.
+- Use eventos em kebab-case, componentes em PascalCase e templates simples, sem
+  expressoes complexas embutidas.
 - Priorize fluxos completos, estados de carregamento, erro e vazio.
 - Verifique responsividade e integracao com contratos da API.
 
