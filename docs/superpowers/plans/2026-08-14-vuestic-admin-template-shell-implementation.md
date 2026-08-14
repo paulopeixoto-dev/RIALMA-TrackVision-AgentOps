@@ -2,6 +2,14 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+## Nota De Atualizacao
+
+Atualizado em 2026-08-14: a regra vigente do frontend e Vuestic Admin/Vuestic UI
+first. Telas, layouts, formularios, navegacao, alerts, modais, tabelas e acoes devem
+usar componentes `Va*` diretamente quando houver equivalente. Qualquer instrucao
+abaixo que cite `Base*` deve ser lida como historico da primeira implementacao, nao
+como padrao para novas mudancas.
+
 **Goal:** Make the TrackVision login and every authenticated admin screen use a cohesive Vuestic Admin-inspired template shell.
 
 **Architecture:** Keep the existing TrackVision Vue app as the domain source of truth. Use Vuestic UI layout primitives for the authenticated shell, keep `Base*` wrappers as the UI boundary, and preserve all router/store/service contracts.

@@ -1,5 +1,14 @@
 # Vuestic Admin Frontend Migration Design
 
+## Nota De Atualizacao
+
+Atualizado em 2026-08-14: a decisao atual do projeto supersede a estrategia inicial
+de wrappers `Base*` como fronteira visual. O frontend deve priorizar componentes
+Vuestic Admin/Vuestic UI diretamente em telas, layouts, formularios, navegacao,
+modais, alerts, tabelas e acoes. Componentes `Base*` citados abaixo representam
+historico da primeira migracao e nao devem orientar novas implementacoes quando houver
+componente `Va*` equivalente.
+
 ## Objetivo
 
 Migrar o frontend do RIALMA TrackVision para usar o Vuestic Admin como referencia

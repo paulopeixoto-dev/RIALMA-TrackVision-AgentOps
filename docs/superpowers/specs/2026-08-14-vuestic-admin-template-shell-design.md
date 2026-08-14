@@ -18,7 +18,7 @@ O frontend ja possui:
 - Vue 3, Vite, TypeScript, Pinia e Vue Router;
 - `vuestic-ui` instalado e registrado;
 - tema global em `src/app/vuestic.ts`;
-- wrappers `Base*` usando componentes Vuestic;
+- alguns componentes `Base*` legados ainda existentes no codigo;
 - paginas administrativas funcionais;
 - login integrado ao backend Laravel;
 - controle de permissoes por rota e sidebar;
@@ -93,7 +93,7 @@ com:
 - `VaForm` como raiz do formulario;
 - `VaInput` para email e senha;
 - controle para mostrar/ocultar senha se couber sem complexidade;
-- `BaseAlert` para erros de credencial, validacao e falha generica;
+- `VaAlert` para erros de credencial, validacao e falha generica;
 - `VaButton` com largura total e estado de carregamento;
 - textos curtos e operacionais, sem conteudo promocional;
 - preservacao do fluxo atual de `authStore.login` e redirect.
@@ -260,6 +260,8 @@ Verificacoes obrigatorias:
 - O template Vuestic Admin/Vuestic UI e a prioridade visual do frontend.
 - Telas alteradas devem preferir componentes `Va*` diretamente antes de wrappers
   genericos ou HTML cru.
+- Componentes `Base*` nao sao o padrao atual para telas; se permanecerem no codigo,
+  devem ser tratados como legado ate migracao segura.
 - `VaLayout` sera usado no shell autenticado.
 - Login tera experiencia propria inspirada em `AuthLayout`.
 - Tailwind continua fora desta fase.

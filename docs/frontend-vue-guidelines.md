@@ -130,8 +130,9 @@ Use nomes para revelar o papel do componente na aplicacao.
 
 Padroes esperados:
 
-- componentes reutilizaveis e genericos de UI devem usar prefixo `Base`, como
-  `BaseButton.vue`, `BaseModal.vue` ou `BaseInput.vue`;
+- componentes reutilizaveis devem revelar o dominio ou composicao que entregam;
+- nao use prefixo `Base` para recriar wrappers genericos de componentes Vuestic
+  simples;
 - componentes usados uma unica vez por pagina ou layout devem usar prefixo `The`,
   como `TheHeader.vue`, `TheSidebar.vue` ou `TheFooter.vue`;
 - componentes acoplados a um dominio devem carregar o dominio no nome, como
@@ -139,9 +140,9 @@ Padroes esperados:
 - evite nomes vagos como `Card.vue`, `List.vue`, `Modal.vue` ou `Item.vue`;
 - escolha PascalCase para arquivos e imports e mantenha essa convencao em todo o repo.
 
-Nao registre componentes globais automaticamente sem necessidade. Se houver registro
-global para componentes base, documente o padrao e mantenha apenas componentes
-realmente genericos nessa categoria.
+Nao registre componentes globais automaticamente sem necessidade. Componentes `Base*`
+legados nao devem ser usados em telas novas ou alteradas quando houver componente
+Vuestic equivalente.
 
 ## Composition API e composables
 
