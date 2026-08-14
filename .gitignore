@@ -7,3 +7,4 @@
 
 # Scaffolds temporarios gerados durante execucao agentica
 /temp-trackvision-backend/
+/.worktrees/
