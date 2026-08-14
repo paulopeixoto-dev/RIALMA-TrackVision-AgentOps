@@ -66,3 +66,14 @@ componentes pequenos, composables para logica reutilizavel, Pinia quando houver 
 compartilhado e services/clients para consumo de API. Esse padrao esta detalhado em
 `docs/frontend-vue-guidelines.md` e deve orientar qualquer demanda futura de tela,
 componente, rota, estado ou integracao com API.
+
+## CI/CD
+
+Backend e frontend possuem workflows GitHub Actions para validacao em `push` e
+`pull_request` para `main`.
+
+- Backend: Composer validate, Pint e testes Laravel.
+- Frontend: ESLint, Vitest e build Vite.
+
+Deploy automatico ainda nao faz parte do escopo; sera definido junto com a
+infraestrutura de producao e homologacao de campo.
