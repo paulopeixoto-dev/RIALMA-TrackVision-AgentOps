@@ -16,12 +16,16 @@
 - Evento: `TrafficJunction`.
 - Destino: `/api/v1/edge/intelbras/camera-pairs/{camera_pair_uuid}/lpr-events`.
 - Autenticacao: Basic Auth dedicado.
+- Para capturar todos os veiculos com placa legivel, deixar `TRACKVISION_EDGE_AUTO_REGISTER_UNKNOWN_VEHICLES=true` no backend edge.
 
 ## Validacao
 
 - Passar um veiculo cadastrado pela LPR.
 - Confirmar `capture_events.status=accepted`.
 - Confirmar uma midia `lpr_image`.
-- Confirmar uma midia `support_image`.
+- Confirmar uma midia `support_image` quando o par tiver camera de apoio.
+- Passar um veiculo ainda nao cadastrado.
+- Confirmar que o veiculo foi criado com descricao `Auto cadastrado via LPR`.
+- Confirmar que a captura do veiculo novo foi aceita e entrou na outbox.
 - Desligar internet do local e repetir passagem.
 - Confirmar que o evento fica em `edge_outbox_messages.status=pending`.

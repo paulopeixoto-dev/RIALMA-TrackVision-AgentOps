@@ -95,7 +95,7 @@ Resposta do edge:
 OK
 ```
 
-O edge deve responder `OK` tambem para eventos ignorados por placa desconhecida, desde que o payload seja valido. Isso evita reenvios infinitos da camera por eventos que o TrackVision decidiu nao efetivar.
+O edge deve responder `OK` para eventos validos. Quando `TRACKVISION_EDGE_AUTO_REGISTER_UNKNOWN_VEHICLES=true`, uma placa legivel ainda nao cadastrada vira um veiculo ativo auto cadastrado e segue o fluxo operacional. Eventos sem placa legivel continuam sem inventar veiculo; se forem ignorados, tambem devem responder `OK` para evitar reenvios infinitos da camera.
 
 ## Fluxo De Dados
 
@@ -106,8 +106,8 @@ O edge deve responder `OK` tambem para eventos ignorados por placa desconhecida,
 5. `IntelbrasWebhookParser` identifica codigo do evento, acao, horario, pista/faixa, placa, payload bruto e imagens anexadas.
 6. `HandleIntelbrasLprWebhookAction` valida que o evento pertence ao par de cameras informado.
 7. A placa e normalizada no mesmo padrao de `vehicles.plate_normalized`.
-8. Se o veiculo nao estiver cadastrado e ativo, o edge registra evento ignorado somente quando a configuracao permitir.
-9. Se o veiculo estiver cadastrado e ativo, o edge captura snapshot da camera de apoio.
+8. Se a placa legivel nao estiver em um veiculo ativo e `TRACKVISION_EDGE_AUTO_REGISTER_UNKNOWN_VEHICLES=true`, o edge cria um veiculo ativo com descricao `Auto cadastrado via LPR`.
+9. Se o veiculo estiver resolvido, inclusive por auto cadastro, o edge captura snapshot da camera de apoio quando o par tiver apoio.
 10. Se o webhook nao trouxer imagem LPR, o edge captura snapshot da camera LPR.
 11. O edge salva as imagens como midias privadas locais.
 12. O edge cria `capture_event` e `edge_outbox_message` com chave idempotente.
@@ -236,7 +236,8 @@ Quando algum campo nao existir, usar o melhor substituto disponivel e incluir ha
 - O edge deve aceitar upload apenas de camera pair ativo.
 - Logs nao podem conter senha, token, Authorization header nem payload binario completo.
 - Imagens devem ser gravadas em storage privado.
-- O parent nunca deve receber eventos de placa desconhecida no fluxo de viagens.
+- O parent deve aceitar captura sincronizada de placa auto cadastrada pelo edge, criando o veiculo central pelo `vehicle_uuid` enviado no batch quando ainda nao existir.
+- Eventos sem placa legivel nao devem criar veiculo nem viagem automaticamente.
 - O fallback por assinatura deve usar timeout, reconexao com backoff e credenciais criptografadas do model `Camera`.
 
 ## Testes
@@ -252,7 +253,8 @@ Unitarios:
 Feature:
 
 - webhook com placa cadastrada e ativa cria captura local;
-- webhook com placa desconhecida responde `OK` e nao cria viagem parent;
+- webhook com placa desconhecida e auto cadastro ligado cria veiculo, captura aceita, outbox e viagem no parent apos sync;
+- webhook sem placa legivel responde `OK` quando ignorado e nao cria viagem parent;
 - webhook sem imagem LPR captura snapshot da LPR;
 - webhook sempre captura snapshot da camera de apoio para veiculo ativo;
 - duplicidade de evento nao cria captura duplicada;

@@ -352,7 +352,7 @@ O parent deve validar:
 - Nunca registrar tokens OAuth ou Authorization headers.
 - Imagens devem ficar em storage privado.
 - Parent deve validar que `camera_pair_uuid` e cameras pertencem ao edge node autenticado.
-- Parent deve aceitar somente capturas de veiculos cadastrados ativos para fluxo operacional v1.
+- Parent deve aceitar capturas de veiculos ativos ja cadastrados e tambem auto cadastrar veiculo ausente quando o edge enviar captura aceita com `vehicle_uuid`, `plate` e `plate_normalized`.
 - Como o cadastro atual de veiculos e global por placa, o vinculo veiculo-edge fica fora do v1 e pode virar uma tabela de escopo por local/edge quando a operacao exigir.
 - O edge nunca deve apagar captura local apos sync nesta fase; retencao fica para fase operacional.
 
