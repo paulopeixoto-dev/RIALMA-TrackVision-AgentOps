@@ -18,6 +18,9 @@ O frontend deve ser previsivel, acessivel, performatico e facil de evoluir. Para
 - Integracao com API deve ficar isolada em clients/services.
 - Toda tela deve considerar estados de loading, erro, vazio e sucesso.
 - Mudancas relevantes devem incluir testes e documentacao de contrato visual/API.
+- O template visual padrao e Vuestic Admin com Vuestic UI. Componentes `Va*`,
+  layouts, tokens e padroes do template devem ser a primeira escolha em telas,
+  formularios, navegacao, modais, tabelas e acoes.
 
 ## Stack esperada
 
@@ -31,9 +34,14 @@ tiver sido iniciado, use como referencia:
 - Pinia para estado compartilhado;
 - Vitest e Vue Test Utils para testes unitarios e de componentes;
 - Playwright ou Cypress para fluxos criticos end-to-end quando necessario.
+- Vuestic Admin como referencia de layout administrativo e Vuestic UI como biblioteca
+  primaria de componentes visuais.
 
 Nao adicionar bibliotecas grandes sem avaliar impacto no bundle, manutencao e real
 necessidade.
+
+Nao criar framework visual paralelo ao Vuestic. Se o Vuestic entregar o componente ou
+padrao de interacao, use-o primeiro.
 
 ## Estrutura sugerida
 
@@ -76,6 +84,11 @@ Padroes esperados:
   deve ir para computed, composable ou metodo nomeado;
 - estilos escopados ou organizados pelo padrao global do projeto;
 - componentes de tela devem orquestrar, componentes reutilizaveis devem focar UI.
+- componentes de tela, layout, formulario e navegacao devem usar `VaButton`,
+  `VaInput`, `VaSelect`, `VaCard`, `VaModal`, `VaAlert`, `VaDataTable`, `VaLayout`
+  e demais componentes Vuestic diretamente quando houver equivalente.
+- componentes de dominio podem envolver componentes Vuestic para acoplar regra do
+  TrackVision, mas nao devem esconder um componente Vuestic simples sem ganho claro.
 
 Um componente nao deve:
 
@@ -84,6 +97,32 @@ Um componente nao deve:
 - acessar estado global sem necessidade;
 - misturar fetch, transformacao, validacao visual e layout em um unico arquivo grande;
 - receber dados indefinidos sem tratar loading, erro ou vazio.
+- recriar visualmente componentes que o Vuestic ja fornece.
+- usar HTML cru para botoes, campos, selects, modais, alerts ou tabelas quando houver
+  componente Vuestic adequado.
+
+## Padrao Vuestic Admin
+
+Vuestic Admin e o template de referencia do frontend TrackVision. Toda demanda de
+tela deve consultar primeiro os padroes ja aplicados no projeto e, quando necessario,
+as referencias oficiais do Vuestic.
+
+Regras obrigatorias:
+
+- priorizar componentes `Va*` nas telas e formularios;
+- priorizar `VaLayout`, `VaNavbar`, `VaSidebar`/navegacao equivalente, `VaCard`,
+  `VaForm`, `VaInput`, `VaSelect`, `VaButton`, `VaModal`, `VaAlert` e `VaDataTable`
+  antes de criar alternativa propria;
+- preservar classes locais somente para densidade, espacamento, responsividade e
+  necessidades especificas do dominio;
+- evitar wrappers genericos como substitutos de componentes Vuestic simples;
+- documentar qualquer excecao quando um componente proprio for inevitavel;
+- manter testes de contrato para impedir regressao para componentes visuais proprios.
+
+Wrappers ou componentes `Base*` existentes so devem permanecer quando forem
+composicoes temporarias, compatibilidade legado ou quando adicionarem comportamento
+real que o Vuestic nao entrega diretamente. Codigo novo ou tela alterada deve migrar
+para Vuestic direto sempre que isso for seguro.
 
 ## Convencoes de nomes de componentes
 
@@ -312,7 +351,10 @@ ou de fluxo ponta a ponta.
 Antes de finalizar uma demanda de frontend Vue, confirme:
 
 - [ ] Componentes tem responsabilidade clara.
-- [ ] Base components usam prefixo `Base` e componentes single-instance usam `The`.
+- [ ] Telas, layouts, formularios e navegacao priorizam componentes `Va*` do Vuestic.
+- [ ] Nao foi criado wrapper generico ou HTML cru quando havia componente Vuestic
+      equivalente.
+- [ ] Componentes single-instance usam prefixo `The`.
 - [ ] Props e emits estao explicitamente definidos.
 - [ ] Eventos customizados usam kebab-case.
 - [ ] Props usam camelCase no script e kebab-case no template.
@@ -329,6 +371,7 @@ Antes de finalizar uma demanda de frontend Vue, confirme:
 - [ ] `v-html` foi evitado ou justificado com sanitizacao.
 - [ ] Regras recomendadas do Vue Style Guide foram seguidas.
 - [ ] Testes cobrem regras, componentes ou fluxos alterados.
+- [ ] Testes de contrato do template Vuestic seguem passando quando aplicavel.
 - [ ] `git status --short --branch` foi conferido no repositorio correto.
 
 ## Referencias oficiais
@@ -344,6 +387,8 @@ Antes de finalizar uma demanda de frontend Vue, confirme:
 - Vue Performance: https://vuejs.org/guide/best-practices/performance
 - Vue Security: https://vuejs.org/guide/best-practices/security.html
 - Vite Env Variables: https://vite.dev/guide/env-and-mode
+- Vuestic Admin: https://github.com/epicmaxco/vuestic-admin
+- Vuestic UI: https://ui.vuestic.dev/
 
 ## Referencias complementares
 

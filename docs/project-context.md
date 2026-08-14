@@ -1,6 +1,6 @@
 # Contexto do Projeto
 
-Atualizado em: 2026-08-12
+Atualizado em: 2026-08-14
 
 ## Visao geral
 
@@ -66,6 +66,12 @@ componentes pequenos, composables para logica reutilizavel, Pinia quando houver 
 compartilhado e services/clients para consumo de API. Esse padrao esta detalhado em
 `docs/frontend-vue-guidelines.md` e deve orientar qualquer demanda futura de tela,
 componente, rota, estado ou integracao com API.
+
+O padrao visual oficial do frontend e Vuestic Admin com Vuestic UI. Toda tela nova
+ou alterada deve priorizar componentes `Va*`, layouts, interacoes e tokens do
+template antes de criar componente proprio. Componentes de dominio podem compor
+Vuestic, mas nao devem substituir o design system quando existir componente nativo
+equivalente.
 
 ## CI/CD
 

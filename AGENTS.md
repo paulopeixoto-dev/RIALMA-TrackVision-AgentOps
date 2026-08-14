@@ -67,6 +67,12 @@ Ao trabalhar no frontend:
 
 - Use o repositorio `RIALMA-TrackVision-Frontend`.
 - Siga o padrao Vue documentado em `docs/frontend-vue-guidelines.md`.
+- O template padrao do frontend e Vuestic Admin com Vuestic UI. Antes de criar
+  componente visual proprio, usar componente, layout, padrao e token do Vuestic
+  quando existir equivalente.
+- Telas, layouts, formularios e navegacao devem priorizar `Va*` components
+  diretamente. Wrappers genericos ou HTML cru so entram quando o Vuestic nao atender
+  o caso ou quando houver composicao de dominio claramente justificada.
 - Use Vue 3, Composition API e Single-File Components como base.
 - Mantenha componentes pequenos, com responsabilidade clara, props tipadas e emits
   explicitos.

@@ -52,7 +52,9 @@ Usar a abordagem incremental:
 5. adaptar `TheTopbar` para uma navbar operacional Vuestic;
 6. revisar todas as paginas para usar cabecalho, cards, tabelas, formularios,
    alerts e modais de forma consistente;
-7. manter o CSS global apenas para tokens, densidade, responsividade e pequenos
+7. priorizar componentes `Va*` diretamente nas telas quando houver equivalente no
+   Vuestic UI;
+8. manter o CSS global apenas para tokens, densidade, responsividade e pequenos
    ajustes de dominio.
 
 Esta decisao evita uma reescrita ampla e reduz risco para autenticacao,
@@ -89,10 +91,10 @@ com:
 - layout dividido em desktop, com painel de marca/contexto e formulario;
 - layout compacto em mobile;
 - `VaForm` como raiz do formulario;
-- `BaseInput` para email e senha;
+- `VaInput` para email e senha;
 - controle para mostrar/ocultar senha se couber sem complexidade;
 - `BaseAlert` para erros de credencial, validacao e falha generica;
-- `BaseButton` com largura total e estado de carregamento;
+- `VaButton` com largura total e estado de carregamento;
 - textos curtos e operacionais, sem conteudo promocional;
 - preservacao do fluxo atual de `authStore.login` e redirect.
 
@@ -161,9 +163,10 @@ Todas as paginas existentes devem seguir o mesmo padrao:
 - `page-section` como container principal;
 - `page-header` com eyebrow, titulo e acoes;
 - `VaCard` para bloco de tabela, formulario ou resumo;
-- `BaseTable` para dados tabulares;
-- `BaseModal` para criacao/edicao;
-- `BaseAlert` para erro/sucesso;
+- componentes Vuestic diretos para botoes, campos, selects e demais controles
+  nativos do template;
+- componentes de composicao existentes apenas quando adicionarem comportamento de
+  dominio ainda nao coberto por um componente Vuestic direto;
 - textos vazios objetivos;
 - botoes alinhados e com variantes consistentes.
 
@@ -241,7 +244,8 @@ Verificacoes obrigatorias:
   Mitigacao: ajustar testes para comportamento visivel, nao detalhes frageis.
 
 - Risco: acoplar demais o dominio ao Vuestic.
-  Mitigacao: manter wrappers `Base*` e services/stores intactos.
+  Mitigacao: manter services/stores como fonte de regra e permitir componentes de
+  dominio somente quando composicao Vuestic direta nao bastar.
 
 - Risco: layout mobile ficar dificil de operar.
   Mitigacao: usar `VaLayout` com overlay/recolhimento e validar viewport menor.
@@ -253,6 +257,9 @@ Verificacoes obrigatorias:
 ## Decisoes
 
 - A implementacao deve adaptar o template ao TrackVision, nao importar demos.
+- O template Vuestic Admin/Vuestic UI e a prioridade visual do frontend.
+- Telas alteradas devem preferir componentes `Va*` diretamente antes de wrappers
+  genericos ou HTML cru.
 - `VaLayout` sera usado no shell autenticado.
 - Login tera experiencia propria inspirada em `AuthLayout`.
 - Tailwind continua fora desta fase.
