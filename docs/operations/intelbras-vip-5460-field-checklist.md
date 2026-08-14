@@ -18,12 +18,28 @@
 - Autenticacao: Basic Auth dedicado.
 - Para capturar todos os veiculos com placa legivel, deixar `TRACKVISION_EDGE_AUTO_REGISTER_UNKNOWN_VEHICLES=true` no backend edge.
 
+## Fallback Sem Webhook
+
+Quando a camera nao estiver enviando push/webhook para o edge, manter o listener
+local ativo no backend edge:
+
+```bash
+php artisan edge:listen-intelbras {camera_pair_uuid}
+```
+
+Esse processo assina `snapManager.cgi?action=attachFileProc`, recebe eventos
+`TrafficJunction`, cria capturas locais, salva imagem LPR por snapshot quando o
+evento vier sem imagem e anexa capturas aceitas a viagens. Em campo, executar
+como servico supervisionado para reiniciar automaticamente em queda de energia ou
+reinicio da maquina.
+
 ## Validacao
 
 - Passar um veiculo cadastrado pela LPR.
 - Confirmar `capture_events.status=accepted`.
 - Confirmar uma midia `lpr_image`.
 - Confirmar uma midia `support_image` quando o par tiver camera de apoio.
+- Confirmar que a tela `Viagens` lista a passagem e abre o detalhe com imagem LPR.
 - Passar um veiculo ainda nao cadastrado.
 - Confirmar que o veiculo foi criado com descricao `Auto cadastrado via LPR`.
 - Confirmar que a captura do veiculo novo foi aceita e entrou na outbox.
