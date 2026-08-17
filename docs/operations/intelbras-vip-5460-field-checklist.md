@@ -11,6 +11,7 @@
 - IP, porta, canal, usuario e senha da camera de apoio.
 - IP, porta, protocolo, usuario somente leitura e senha do NVR.
 - Canal do NVR correspondente a cada camera de apoio.
+- Confirmacao de que cada canal do NVR mapeado esta ativamente gravando.
 - Retencao minima esperada no NVR.
 
 ## Configuracao Recomendada
@@ -44,6 +45,7 @@ reinicio da maquina.
 ## Validacao
 
 - Passar um veiculo cadastrado pela LPR.
+- Confirmar que o canal do NVR mapeado para a camera de apoio esta ativamente gravando.
 - Confirmar `capture_events.status=accepted`.
 - Confirmar uma midia `lpr_image`.
 - Confirmar uma midia `support_image` quando o par tiver camera de apoio.

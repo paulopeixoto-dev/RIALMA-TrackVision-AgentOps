@@ -9,6 +9,11 @@ A camera LPR continua sendo a origem do evento de placa. O NVR e usado como
 fonte historica para buscar um frame JPEG da camera de apoio quando a imagem de
 apoio nao foi capturada em tempo real.
 
+O processamento do evento LPR e nao bloqueante em relacao ao NVR: a captura e o
+`CaptureEvent` continuam sendo processados mesmo quando o NVR esta indisponivel,
+nao configurado ou fora da retencao necessaria. Nesses casos, a imagem de apoio
+pode permanecer ausente e a recuperacao fica registrada para tratamento posterior.
+
 ## O Que Deve Ficar Rodando
 
 - MySQL local do edge.
@@ -65,6 +70,9 @@ Placeholders suportados pelo template:
 - `{unix_timestamp}`
 - `{search_window_seconds}`
 
+Somente endpoints historicos de frame ou APIs suportadas pelo firmware do NVR
+podem ser usados. E proibido fazer scraping da interface web do NVR.
+
 ## Fluxo Operacional
 
 1. A VIP 5460 LPR IA identifica a placa.
@@ -91,16 +99,24 @@ Placeholders suportados pelo template:
 1. Confirme que o edge acessa o NVR pela rede local.
 2. Confirme que o canal da camera de apoio esta gravando.
 3. Passe um veiculo pela LPR.
-4. Abra `Viagens` e selecione a viagem.
-5. Se a imagem de apoio estiver ausente, clique em `Recuperar apoio`.
-6. Rode:
+4. Confirme que o `CaptureEvent` da passagem foi criado no edge e identifique a
+   captura correspondente.
+5. Antes de qualquer recuperacao, confirme se a captura ja possui
+   `support_image`; registre explicitamente a presenca ou a ausencia inicial.
+6. Aguarde a rotina agendada ou execute a mesma verificacao operacionalmente:
 
 ```bash
 php artisan edge:recover-support-images --missing-only --limit=10
 ```
 
-7. Reabra a viagem e confirme a imagem de apoio.
-8. Exporte o PDF e confirme que a imagem recuperada aparece no relatorio.
+7. Reabra a viagem e confirme o resultado da tentativa: `support_image` recuperada
+   quando houver frame disponivel, ou estado de ausencia/falha quando o NVR estiver
+   sem dados.
+8. Somente se ainda for necessario, como acao separada do operador, abra
+   `Viagens` e clique em `Recuperar apoio`. Registre essa acao manual
+   separadamente e nao a use para validar o comportamento da rotina agendada.
+9. Exporte o PDF e confirme que a imagem de apoio aparece no relatorio quando
+   tiver sido recuperada.
 
 ## Rotinas Criticas
 
@@ -112,8 +128,11 @@ php artisan edge:recover-support-images --missing-only --limit=10
 ## Seguranca
 
 - Use usuario somente leitura no NVR.
+- Armazene as credenciais com Laravel encrypted casts no backend.
 - Nao registre senha, header de autorizacao, URL com credencial ou payload binario
   em logs.
+- Credenciais nunca podem aparecer em `Resources`, payloads de bootstrap ou bundles
+  do frontend.
 - O parent nunca acessa o NVR.
 - As imagens continuam privadas e sao servidas apenas pelos endpoints autenticados
   do backend.
