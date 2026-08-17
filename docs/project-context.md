@@ -1,6 +1,6 @@
 # Contexto do Projeto
 
-Atualizado em: 2026-08-14
+Atualizado em: 2026-08-17
 
 ## Visao geral
 
@@ -83,3 +83,22 @@ Backend e frontend possuem workflows GitHub Actions para validacao em `push` e
 
 Deploy automatico ainda nao faz parte do escopo; sera definido junto com a
 infraestrutura de producao e homologacao de campo.
+
+## Integracao LPR, NVR E Imagem De Apoio
+
+O fluxo operacional aprovado para captura de placas e imagens de apoio e:
+
+- a VIP 5460 LPR IA continua sendo a origem do evento de placa;
+- o backend edge recebe webhook/listener da LPR, cria `CaptureEvent`, salva imagem
+  LPR e tenta snapshot imediato da camera de apoio;
+- se a imagem de apoio nao existir, o edge agenda uma tentativa de recuperacao;
+- o NVR local e a fonte historica para recuperar o frame da camera de apoio por
+  canal e horario;
+- o comando `php artisan edge:recover-support-images --missing-only --limit=50`
+  deve rodar de forma recorrente no edge;
+- quando a imagem e recuperada, ela e anexada como `support_image` e a captura volta
+  para a outbox como `pending`;
+- o parent recebe a imagem apenas pela sincronizacao edge-to-parent, nunca acessando
+  o NVR diretamente.
+
+Detalhes operacionais ficam em `docs/operations/nvr-support-image-recovery.md`.
