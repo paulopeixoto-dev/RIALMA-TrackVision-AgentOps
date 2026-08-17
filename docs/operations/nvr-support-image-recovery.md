@@ -33,6 +33,10 @@ O comando de recuperacao deve rodar em intervalo igual ou menor que
 `TRACKVISION_NVR_RECOVERY_RETRY_MINUTES`. Com o valor padrao de 10 minutos,
 configure a rotina para executar a cada 5 minutos.
 
+Execute esse comando somente no backend do edge, com
+`TRACKVISION_NODE_ROLE=edge` e `TRACKVISION_EDGE_NODE_UUID` apontando para o
+edge local. O selector ignora tentativas de outros edge nodes.
+
 Em Linux, use cron ou systemd timer supervisionado:
 
 ```cron
@@ -72,16 +76,30 @@ Validacao obrigatoria da rotina:
    depois do evento da LPR.
 5. Ajuste `search_window_seconds` para tolerar pequena diferenca de relogio.
 
+Informe apenas IP ou hostname no campo host, sem scheme, porta, path ou
+credenciais. Ao alterar host, porta, protocolo ou autenticacao de um NVR
+autenticado, informe novamente a senha.
+
 ## Variaveis De Ambiente
 
 ```text
 TRACKVISION_NVR_DEFAULT_SEARCH_WINDOW_SECONDS=5
 TRACKVISION_NVR_DEFAULT_TARGET_OFFSET_SECONDS=2
 TRACKVISION_NVR_RECOVERY_RETRY_MINUTES=10
+TRACKVISION_NVR_RUNNING_LEASE_SECONDS=300
 TRACKVISION_NVR_RECOVERY_MAX_ATTEMPTS=5
 TRACKVISION_NVR_TIMEOUT_SECONDS=15
+TRACKVISION_NVR_MAX_FRAME_BYTES=10485760
 TRACKVISION_NVR_INTELBRAS_FRAME_ENDPOINT_TEMPLATE=
 ```
+
+`TRACKVISION_NVR_RUNNING_LEASE_SECONDS` define quando uma tentativa `running`
+sem atualizacao pode ser retomada depois da queda de um worker. Um `running`
+com lease ativo nao deve ser reagendado manualmente nem executado em paralelo.
+
+`TRACKVISION_NVR_MAX_FRAME_BYTES` limita o total lido da resposta do NVR. O
+frame so e aceito quando o corpo possui assinatura JPEG completa, mesmo quando
+o servidor declara `Content-Type: image/jpeg`.
 
 `TRACKVISION_NVR_INTELBRAS_FRAME_ENDPOINT_TEMPLATE` deve permanecer vazio ate o
 endpoint de frame historico ser validado no NVR instalado em campo.
